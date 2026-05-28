@@ -1,0 +1,1464 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 10,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "P24BB1063C80D1A5B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "P24BB1063C80D1A5B"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select 1",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "CSSapp",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "QO1cKG4Iz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 12,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "QO1cKG4Iz"
+          },
+          "editorMode": "code",
+          "expr": "topk(10, sum(count_over_time(\r\n  {environment=\"prod\"}\r\n  |~ \"username=[^\\\\s]+@idir\" \r\n  |= `realmId=standard` \r\n  |= `type=LOGIN`\r\n  != `type=LOGIN_ERROR`\r\n  | regexp \".*clientId=(?P<client_id>[^, ]+)\" [$__range]\r\n)) by (client_id))",
+          "queryType": "instant",
+          "refId": "A"
+        }
+      ],
+      "title": "Panel Title",
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Value #A"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "23beuGVIz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 18
+      },
+      "id": 11,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "23beuGVIz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select to_char(date::date, 'YYYY-MM-DD') AS event_date, sum(count) as \"Total Logins\" from client_events where environment='dev' and event_type in ('LOGIN') and $__timeFilter(date) and realm_id = 'standard' group by date;\r\n-- select * from client_events limit 1;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Panel Title",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "23beuGVIz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 26
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "23beuGVIz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select * from client_sessions ;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Session exploration",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "PCABE086A43233CC2"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 34
+      },
+      "id": 9,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PCABE086A43233CC2"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select c1.realm_id,kr.name as role_name\r\nfrom client c1, keycloak_role kr\r\nwhere  kr.client = c1.id\r\nand c1.realm_id NOT LIKE 'standard'\r\nAND c1.realm_id IN ( select r.name from realm r, identity_provider_mapper ipm where  ipm.realm_id=r.id AND (LOWER(ipm.\"idp_alias\") LIKE '%bcsc-mobile%'   OR    LOWER(ipm.\"idp_alias\") LIKE '%bcsc%'   OR    LOWER(ipm.\"idp_alias\") LIKE '%services%') )\r\n\r\n\r\n/* select distinct r.name as realm_name, kr.name as role_name, ipm.\"idp_alias\"\r\nfrom realm  r, identity_provider_mapper ipm , client c1, keycloak_role kr\r\nwhere   ipm.realm_id=r.id\r\n\r\nAND (LOWER(ipm.\"idp_alias\") LIKE '%bcsc-mobile%'   OR    LOWER(ipm.\"idp_alias\") LIKE '%bcsc%'   OR    LOWER(ipm.\"idp_alias\") LIKE '%services%') \r\nAND kr.client = c1.id\r\n*/\r\n--where client_id ='5117cc76-d716-443f-88ef-656592833cea'\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Panel Title",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P272A3CABAFFF64B1"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 42
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P272A3CABAFFF64B1"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": true,
+          "rawQuery": true,
+          "rawSql": "\r\nSELECT \r\ndate_bin ( '10 minutes', timestamp,  TIMESTAMP '2023-11-01 15:00:00' ) AT TIME ZONE 'PST' as time_bucket,\r\ncount(1) as \"Number of Logs\"\r\nfrom sso_logs\r\nWHERE \r\nnamespace LIKE '%e4ca1d-dev%' \r\nAND (message->>'type') = 'LOGIN'\r\nAND \"timestamp\">= $__timeFrom() :: timestamptz AND \"timestamp\" < $__timeTo() :: timestamptz\r\nGROUP BY date_bin ( '10 minutes', timestamp,  TIMESTAMP '2023-11-01 15:00:00' )\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "\"timestamp\"",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "id",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "message",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "namespace",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "baa9abb9-0123-4456-b89a-b18bb635d4dc",
+                  "properties": {
+                    "field": "namespace",
+                    "operator": "like",
+                    "value": [
+                      "eb75ad-prod"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                },
+                {
+                  "id": "99bba8aa-cdef-4012-b456-718bb6371552",
+                  "properties": {
+                    "field": "message",
+                    "operator": "like",
+                    "value": [
+                      "LOGIN"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                },
+                {
+                  "id": "8b9aaba8-89ab-4cde-b012-318bb6379156",
+                  "properties": {
+                    "value": [],
+                    "valueSrc": []
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "aaab8baa-89ab-4cde-b012-318bb62b1ee4",
+              "type": "group"
+            },
+            "whereString": "(namespace LIKE '%eb75ad-prod%' AND message LIKE '%LOGIN%')"
+          },
+          "table": "sso_logs"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P272A3CABAFFF64B1"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": true,
+          "rawQuery": true,
+          "rawSql": "SELECT * FROM sso_stats LIMIT 50 ",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "login",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "sso_stats"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P272A3CABAFFF64B1"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": true,
+          "rawQuery": true,
+          "rawSql": "-- -- SELECT \"timestamp\", id, message, namespace FROM sso_logs WHERE (namespace LIKE '%eb75ad-prod%' AND message LIKE '%LOGIN%') LIMIT 50 \r\nSELECT \r\n\"timestamp\", \r\nid, \r\nmessage, \r\nnamespace \r\nFROM sso_logs \r\nWHERE \r\nnamespace LIKE '%e4ca1d-dev%' \r\nAND (message->>'type') = 'LOGIN'\r\nLIMIT 50 ",
+          "refId": "C",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P272A3CABAFFF64B1"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "-- Group by 600 seconds or ten minutes\r\nSELECT \r\nTO_TIMESTAMP(floor(extract(epoch from timestamp) / 600)::bigint * 600) AT TIME ZONE 'PST' as time_bucket,\r\ncount(1) as \"Number of Logs\"\r\nfrom sso_logs\r\nWHERE \r\nnamespace LIKE '%e4ca1d-dev%' \r\nAND (message->>'type') = 'LOGIN'\r\nAND \"timestamp\">= $__timeFrom() :: timestamptz AND \"timestamp\" < $__timeTo() :: timestamptz\r\nGROUP BY floor(extract(epoch from timestamp) / 600)::bigint * 600\r\n\r\n",
+          "refId": "D",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Count Login Events in SANDBOX DEV",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P58A3A50522DA9208"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "realm_id"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 140
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "user_id"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 285
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "identity_provider_id"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 286
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "federated_user_id"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 504
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 50
+      },
+      "id": 6,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n-- identity_provider_config.identity_provider_id, \r\nidentity_provider.realm_id,\r\n-- identity_provider.provider_alias, \r\nCOUNT(federated_identity.user_id) \r\n-- federated_identity.federated_user_id, \r\n-- federated_identity.federated_username,\r\n-- federated_identity.identity_provider\r\n-- -- identity_provider.realm_id AS realm_id, COUNT(identity_provider_id) as number_dc_users_in_realm\r\nFROM identity_provider_config \r\nINNER JOIN identity_provider ON (identity_provider_config.identity_provider_id = identity_provider.internal_id)\r\nINNER JOIN federated_identity ON (identity_provider.realm_id = federated_identity.realm_id)\r\nWHERE identity_provider_config.name LIKE '%authorizationUrl%' \r\nAND identity_provider_config.value LIKE '%vc-authn-oidc%' \r\nAND federated_identity.identity_provider = identity_provider.provider_alias \r\n-- AND identity_provider.realm_id not in ('digitalcredential', 'standard')\r\nGROUP BY identity_provider.realm_id\r\norder BY COUNT(federated_identity.user_id)\r\nLIMIT 50 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": true,
+          "rawQuery": true,
+          "rawSql": "select * from federated_identity ",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Panel Title",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P58A3A50522DA9208"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "realm_id"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 288
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "provider_id"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 116
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "provider_alias"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 184
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 58
+      },
+      "id": 4,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": true,
+          "rawQuery": true,
+          "rawSql": "SELECT realm_id, COUNT(id) FROM user_entity \r\nWHERE realm_id not in ( 'standard', 'idir','github','bceidbasic','bceidbusiness','azureidir','samlrealm') \r\nGROUP BY realm_id\r\nORDER BY COUNT(id)",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "*",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "998898b9-0123-4456-b89a-b18b8c23244b",
+                  "properties": {
+                    "field": "realm_id",
+                    "operator": "equal",
+                    "value": [
+                      "standard"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                },
+                {
+                  "id": "9988a98a-cdef-4012-b456-718b8c239cbe",
+                  "properties": {
+                    "field": "username",
+                    "operator": "like",
+                    "value": [
+                      "verifiablecredential"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "888a9ab9-89ab-4cde-b012-318b88015a88",
+              "type": "group"
+            },
+            "whereString": "(realm_id = 'standard' AND username LIKE '%verifiablecredential%')"
+          },
+          "table": "user_entity"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "editorMode": "builder",
+          "format": "table",
+          "hide": true,
+          "rawSql": "",
+          "refId": "B",
+          "sql": {
+            "columns": [],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "88a8bbb9-4567-489a-bcde-f18b8c2de6c0",
+                  "properties": {
+                    "field": "user_id",
+                    "operator": "equal",
+                    "value": [
+                      "6c38c571-f3c4-4fac-9cda-ba72a5de5b72"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "888a9ab9-89ab-4cde-b012-318b88015a88",
+              "type": "group"
+            },
+            "whereString": "user_id = '6c38c571-f3c4-4fac-9cda-ba72a5de5b72'"
+          },
+          "table": "user_role_mapping"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": true,
+          "rawQuery": true,
+          "rawSql": "SELECT role_id, user_id, username, name \r\nFROM user_entity \r\nINNER JOIN user_role_mapping ON (user_entity.id = user_role_mapping.user_id)\r\nINNER JOIN keycloak_role ON (user_role_mapping.role_id = keycloak_role.id)\r\nWHERE (user_entity.realm_id = 'standard' AND user_entity.username LIKE '%verifiablecredential%')   \r\nLIMIT 50 ",
+          "refId": "C",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "editorMode": "builder",
+          "format": "table",
+          "hide": true,
+          "rawSql": "SELECT * FROM keycloak_role WHERE id = 'b2c5b567-85ff-4b25-9276-b7165a2f965b' LIMIT 50 ",
+          "refId": "D",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "*",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "bbbba8ba-cdef-4012-b456-718b8c7648ca",
+                  "properties": {
+                    "field": "id",
+                    "operator": "equal",
+                    "value": [
+                      "b2c5b567-85ff-4b25-9276-b7165a2f965b"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "888a9ab9-89ab-4cde-b012-318b88015a88",
+              "type": "group"
+            },
+            "whereString": "id = 'b2c5b567-85ff-4b25-9276-b7165a2f965b'"
+          },
+          "table": "keycloak_role"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": true,
+          "rawQuery": true,
+          "rawSql": "SELECT name, COUNT(username)\r\nFROM user_entity \r\nINNER JOIN user_role_mapping ON (user_entity.id = user_role_mapping.user_id)\r\nINNER JOIN keycloak_role ON (user_role_mapping.role_id = keycloak_role.id)\r\nWHERE (user_entity.realm_id = 'standard' AND user_entity.username LIKE '%verifiablecredential%')   \r\nGROUP BY name\r\nORDER BY COUNT(username)\r\nLIMIT 50 ",
+          "refId": "E",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT \r\nrealm_id,\r\nprovider_alias, \r\nprovider_id,  \r\nvalue as \"Authorization Url\"\r\nFROM identity_provider_config \r\nINNER JOIN identity_provider ON (identity_provider_config.identity_provider_id = identity_provider.internal_id)\r\nWHERE identity_provider_config.name LIKE '%authorizationUrl%' and identity_provider_config.value LIKE '%/realms/standard/protocol/openid-connect/auth?kc_idp_hint=digitalcredential'\r\nLIMIT 50 ",
+          "refId": "F",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "*",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "identity_provider_config"
+        }
+      ],
+      "title": "Panel Title",
+      "type": "table"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 66
+      },
+      "id": 2,
+      "panels": [],
+      "title": "Test Row",
+      "type": "row"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "name": "symbol",
+        "options": [],
+        "query": "",
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "text": "2024-09-23",
+          "value": "2024-09-23"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "23beuGVIz"
+        },
+        "definition": "select distinct to_char(date, 'YYYY-MM-DD') from client_events",
+        "includeAll": false,
+        "label": "Date",
+        "name": "date",
+        "options": [],
+        "query": "select distinct to_char(date, 'YYYY-MM-DD') from client_events",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "1",
+          "value": "1"
+        },
+        "includeAll": false,
+        "name": "count",
+        "options": [
+          {
+            "selected": true,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": false,
+            "text": "500",
+            "value": "500"
+          },
+          {
+            "selected": false,
+            "text": "1000",
+            "value": "1000"
+          },
+          {
+            "selected": false,
+            "text": "5000",
+            "value": "5000"
+          }
+        ],
+        "query": "1,500,1000,5000",
+        "type": "custom"
+      },
+      {
+        "current": {
+          "text": "LOGIN",
+          "value": "LOGIN"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "23beuGVIz"
+        },
+        "definition": "select distinct event_type from client_events;",
+        "description": "",
+        "includeAll": false,
+        "label": "Event",
+        "name": "event",
+        "options": [],
+        "query": "select distinct event_type from client_events;",
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Test Dashboard 1",
+  "uid": "dPzteV4Sz",
+  "version": 36
+}

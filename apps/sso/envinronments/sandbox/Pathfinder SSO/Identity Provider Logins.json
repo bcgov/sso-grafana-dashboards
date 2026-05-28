@@ -1,0 +1,233 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 58,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "23beuGVIz"
+      },
+      "description": "A count of the logins per client in the standard realm for the selected environment, idp and time range. ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 23,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "horizontal",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "23beuGVIz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select client_id, count from client_events_with_idp where realm_id='standard' and event_type='LOGIN' and $__timeFilter(date) and environment='${env}' and idp='${idp}' order by date desc",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Logins in Standard Realm",
+      "type": "barchart"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "dev",
+          "value": "dev"
+        },
+        "label": "Environment",
+        "name": "env",
+        "options": [
+          {
+            "selected": true,
+            "text": "dev",
+            "value": "dev"
+          },
+          {
+            "selected": false,
+            "text": "test",
+            "value": "test"
+          },
+          {
+            "selected": false,
+            "text": "prod",
+            "value": "prod"
+          }
+        ],
+        "query": "dev,test,prod",
+        "type": "custom"
+      },
+      {
+        "current": {
+          "text": "idir",
+          "value": "idir"
+        },
+        "label": "Identity Provider",
+        "name": "idp",
+        "options": [
+          {
+            "selected": true,
+            "text": "idir",
+            "value": "idir"
+          },
+          {
+            "selected": false,
+            "text": "azureidir",
+            "value": "azureidir"
+          },
+          {
+            "selected": false,
+            "text": "bceidbasic",
+            "value": "bceidbasic"
+          },
+          {
+            "selected": false,
+            "text": "bceidbusiness",
+            "value": "bceidbusiness"
+          },
+          {
+            "selected": false,
+            "text": "bceidboth",
+            "value": "bceidboth"
+          },
+          {
+            "selected": false,
+            "text": "githubpublic",
+            "value": "githubpublic"
+          },
+          {
+            "selected": false,
+            "text": "githubbcgov",
+            "value": "githubbcgov"
+          },
+          {
+            "selected": false,
+            "text": "digitalcredential",
+            "value": "digitalcredential"
+          }
+        ],
+        "query": "idir,azureidir,bceidbasic,bceidbusiness,bceidboth,githubpublic,githubbcgov,digitalcredential,bcsc",
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "America/Vancouver",
+  "title": "Identity Provider Logins",
+  "uid": "eev3zu9o97uo0f",
+  "version": 8
+}

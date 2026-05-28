@@ -1,0 +1,1100 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 4,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 20,
+      "panels": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 7,
+            "x": 0,
+            "y": 1
+          },
+          "id": 22,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "P58A3A50522DA9208"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  \"public\".\"client\".\"protocol\" AS \"protocol\",\r\n  COUNT(*) AS \"count\"\r\nFROM\r\n  \"public\".\"client\"\r\nWHERE\r\n  \"public\".\"client\".\"realm_id\" not in ( 'standard','idir','azureidir','bceidbusiness','bceidboth','github','master','bceidbasic')\r\n  AND  (\"public\".\"client\".\"client_id\" not in ('account', 'account-console','admin-cli','broker','realm-management','security-admin-console'  ))\r\nGROUP BY\r\n  \"public\".\"client\".\"protocol\"\r\nORDER BY\r\n  \"public\".\"client\".\"protocol\" ASC",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Dev Protocol",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PCABE086A43233CC2"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 6,
+            "x": 7,
+            "y": 1
+          },
+          "id": 23,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "PCABE086A43233CC2"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  \"public\".\"client\".\"protocol\" AS \"protocol\",\r\n  COUNT(*) AS \"count\"\r\nFROM\r\n  \"public\".\"client\"\r\nWHERE\r\n  \"public\".\"client\".\"realm_id\" not in ( 'standard','idir','azureidir','bceidbusiness','bceidboth','github','master','bceidbasic')\r\n  AND  (\"public\".\"client\".\"client_id\" not in ('account', 'account-console','admin-cli','broker','realm-management','security-admin-console'  ))\r\nGROUP BY\r\n  \"public\".\"client\".\"protocol\"\r\nORDER BY\r\n  \"public\".\"client\".\"protocol\" ASC",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Test Protocol",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P2FB56214EEED7ED3"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 6,
+            "x": 13,
+            "y": 1
+          },
+          "id": 24,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "P2FB56214EEED7ED3"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  \"public\".\"client\".\"protocol\" AS \"protocol\",\r\n  COUNT(*) AS \"count\"\r\nFROM\r\n  \"public\".\"client\"\r\nWHERE\r\n  \"public\".\"client\".\"realm_id\" not in ( 'standard','idir','azureidir','bceidbusiness','bceidboth','github','master','bceidbasic')\r\n  AND  (\"public\".\"client\".\"client_id\" not in ('account', 'account-console','admin-cli','broker','realm-management','security-admin-console'  ))\r\nGROUP BY\r\n  \"public\".\"client\".\"protocol\"\r\nORDER BY\r\n  \"public\".\"client\".\"protocol\" ASC",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Prod Protocol",
+          "type": "table"
+        }
+      ],
+      "title": "Protocol Breakdown",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "panels": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 3,
+            "x": 0,
+            "y": 2
+          },
+          "id": 4,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "P58A3A50522DA9208"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "\r\nselect count(*) \r\nfrom realm where realm.name not in ('idir','azureidir','bceidbusiness','bceidboth','github','master','bceidbasic')",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "DEV Custom Realms",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PCABE086A43233CC2"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 3,
+            "x": 3,
+            "y": 2
+          },
+          "id": 5,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "PCABE086A43233CC2"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "\r\nselect count(*) \r\nfrom realm where realm.name not in ('idir','azureidir','bceidbusiness','bceidboth','github','master','bceidbasic')",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "TEST Custom Realms",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P2FB56214EEED7ED3"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 3,
+            "x": 6,
+            "y": 2
+          },
+          "id": 6,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "P2FB56214EEED7ED3"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "\r\nselect count(*) \r\nfrom realm where realm.name not in ('idir','azureidir','bceidbusiness','bceidboth','github','master','bceidbasic')",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "PROD Custom Realms",
+          "type": "table"
+        }
+      ],
+      "title": "Realms",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 8,
+      "panels": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 3,
+            "x": 0,
+            "y": 3
+          },
+          "id": 10,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "P58A3A50522DA9208"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  AVG(\"source\".\"count\") AS \"avg\"\r\nFROM\r\n  (\r\n    SELECT\r\n      \"public\".\"client\".\"realm_id\" AS \"realm_id\",\r\n      COUNT(*) AS \"count\"\r\n    FROM\r\n      \"public\".\"client\"\r\n   \r\nWHERE\r\n      (\r\n        (\r\n          \"public\".\"client\".\"realm_id\" not in (\r\n            'standard',\r\n            'idir',\r\n            'azureidir',\r\n            'bceidbusiness',\r\n            'bceidboth',\r\n            'github',\r\n            'master',\r\n            'bceidbasic'\r\n          )\r\n        )\r\n       \r\n    OR (\"public\".\"client\".\"realm_id\" IS NULL)\r\n      )\r\n     \r\n   AND (\r\n        (\"public\".\"client\".\"client_id\" <> 'account')\r\n        OR (\"public\".\"client\".\"client_id\" IS NULL)\r\n        OR (\"public\".\"client\".\"client_id\" <> 'account-console')\r\n        OR (\"public\".\"client\".\"client_id\" <> 'admin-cli')\r\n        OR (\"public\".\"client\".\"client_id\" IS NULL)\r\n        OR (\"public\".\"client\".\"client_id\" <> 'broker')\r\n        OR (\r\n          \"public\".\"client\".\"client_id\" <> 'realm-management'\r\n        )\r\n        OR (\r\n          \"public\".\"client\".\"client_id\" <> 'security-admin-console'\r\n        )\r\n      )\r\n   \r\nGROUP BY\r\n      \"public\".\"client\".\"realm_id\"\r\n   \r\nORDER BY\r\n      count desc\r\n  ) AS \"source\"",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Dev Avg Clients",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PCABE086A43233CC2"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 3,
+            "x": 3,
+            "y": 3
+          },
+          "id": 11,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "PCABE086A43233CC2"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  AVG(\"source\".\"count\") AS \"avg\"\r\nFROM\r\n  (\r\n    SELECT\r\n      \"public\".\"client\".\"realm_id\" AS \"realm_id\",\r\n      COUNT(*) AS \"count\"\r\n    FROM\r\n      \"public\".\"client\"\r\n   \r\nWHERE\r\n      (\r\n        (\r\n          \"public\".\"client\".\"realm_id\" not in (\r\n            'standard',\r\n            'idir',\r\n            'azureidir',\r\n            'bceidbusiness',\r\n            'bceidboth',\r\n            'github',\r\n            'master',\r\n            'bceidbasic'\r\n          )\r\n        )\r\n       \r\n    OR (\"public\".\"client\".\"realm_id\" IS NULL)\r\n      )\r\n     \r\n   AND (\r\n        (\"public\".\"client\".\"client_id\" <> 'account')\r\n        OR (\"public\".\"client\".\"client_id\" IS NULL)\r\n        OR (\"public\".\"client\".\"client_id\" <> 'account-console')\r\n        OR (\"public\".\"client\".\"client_id\" <> 'admin-cli')\r\n        OR (\"public\".\"client\".\"client_id\" IS NULL)\r\n        OR (\"public\".\"client\".\"client_id\" <> 'broker')\r\n        OR (\r\n          \"public\".\"client\".\"client_id\" <> 'realm-management'\r\n        )\r\n        OR (\r\n          \"public\".\"client\".\"client_id\" <> 'security-admin-console'\r\n        )\r\n      )\r\n   \r\nGROUP BY\r\n      \"public\".\"client\".\"realm_id\"\r\n   \r\nORDER BY\r\n      count desc\r\n  ) AS \"source\"",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Test Avg Clients",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P2FB56214EEED7ED3"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 3,
+            "x": 6,
+            "y": 3
+          },
+          "id": 12,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "P2FB56214EEED7ED3"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  AVG(\"source\".\"count\") AS \"avg\"\r\nFROM\r\n  (\r\n    SELECT\r\n      \"public\".\"client\".\"realm_id\" AS \"realm_id\",\r\n      COUNT(*) AS \"count\"\r\n    FROM\r\n      \"public\".\"client\"\r\n   \r\nWHERE\r\n      (\r\n        (\r\n          \"public\".\"client\".\"realm_id\" not in (\r\n            'standard',\r\n            'idir',\r\n            'azureidir',\r\n            'bceidbusiness',\r\n            'bceidboth',\r\n            'github',\r\n            'master',\r\n            'bceidbasic'\r\n          )\r\n        )\r\n       \r\n    OR (\"public\".\"client\".\"realm_id\" IS NULL)\r\n      )\r\n     \r\n   AND (\r\n        (\"public\".\"client\".\"client_id\" <> 'account')\r\n        OR (\"public\".\"client\".\"client_id\" IS NULL)\r\n        OR (\"public\".\"client\".\"client_id\" <> 'account-console')\r\n        OR (\"public\".\"client\".\"client_id\" <> 'admin-cli')\r\n        OR (\"public\".\"client\".\"client_id\" IS NULL)\r\n        OR (\"public\".\"client\".\"client_id\" <> 'broker')\r\n        OR (\r\n          \"public\".\"client\".\"client_id\" <> 'realm-management'\r\n        )\r\n        OR (\r\n          \"public\".\"client\".\"client_id\" <> 'security-admin-console'\r\n        )\r\n      )\r\n   \r\nGROUP BY\r\n      \"public\".\"client\".\"realm_id\"\r\n   \r\nORDER BY\r\n      count desc\r\n  ) AS \"source\"",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Prod Avg Clients",
+          "type": "table"
+        }
+      ],
+      "title": "Avg Number of Clients",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 14,
+      "panels": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P58A3A50522DA9208"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 0,
+            "y": 4
+          },
+          "id": 16,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "P58A3A50522DA9208"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  AVG(\"source\".\"count\") AS \"avg\"\r\nFROM\r\n  (\r\n    SELECT\r\n      \"public\".\"client\".\"realm_id\" AS \"realm_id\",\r\n      count(*) AS \"count\"\r\n    FROM\r\n      \"public\".\"client\"\r\n   \r\nWHERE\r\n      (\r\n        \"public\".\"client\".\"realm_id\" not in (\r\n          'standard',\r\n          'idir',\r\n          'azureidir',\r\n          'bceidbusiness',\r\n          'bceidboth',\r\n          'github',\r\n          'master',\r\n          'bceidbasic'\r\n        )\r\n       \r\n   AND \"public\".\"client\".\"service_accounts_enabled\" = TRUE\r\n      )\r\n   \r\nGROUP BY\r\n      \"public\".\"client\".\"realm_id\"\r\n   \r\nORDER BY\r\n      count desc\r\n  ) AS \"source\"",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Dev Service Accounts Avg",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PCABE086A43233CC2"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 4,
+            "y": 4
+          },
+          "id": 17,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "PCABE086A43233CC2"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  AVG(\"source\".\"count\") AS \"avg\"\r\nFROM\r\n  (\r\n    SELECT\r\n      \"public\".\"client\".\"realm_id\" AS \"realm_id\",\r\n      count(*) AS \"count\"\r\n    FROM\r\n      \"public\".\"client\"\r\n   \r\nWHERE\r\n      (\r\n        \"public\".\"client\".\"realm_id\" not in (\r\n          'standard',\r\n          'idir',\r\n          'azureidir',\r\n          'bceidbusiness',\r\n          'bceidboth',\r\n          'github',\r\n          'master',\r\n          'bceidbasic'\r\n        )\r\n       \r\n   AND \"public\".\"client\".\"service_accounts_enabled\" = TRUE\r\n      )\r\n   \r\nGROUP BY\r\n      \"public\".\"client\".\"realm_id\"\r\n   \r\nORDER BY\r\n      count desc\r\n  ) AS \"source\"",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Test Service Accounts Avg",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P2FB56214EEED7ED3"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto",
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 8,
+            "y": 4
+          },
+          "id": 18,
+          "options": {
+            "footer": {
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.3.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "P2FB56214EEED7ED3"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT\r\n  AVG(\"source\".\"count\") AS \"avg\"\r\nFROM\r\n  (\r\n    SELECT\r\n      \"public\".\"client\".\"realm_id\" AS \"realm_id\",\r\n      count(*) AS \"count\"\r\n    FROM\r\n      \"public\".\"client\"\r\n   \r\nWHERE\r\n      (\r\n        \"public\".\"client\".\"realm_id\" not in (\r\n          'standard',\r\n          'idir',\r\n          'azureidir',\r\n          'bceidbusiness',\r\n          'bceidboth',\r\n          'github',\r\n          'master',\r\n          'bceidbasic'\r\n        )\r\n       \r\n   AND \"public\".\"client\".\"service_accounts_enabled\" = TRUE\r\n      )\r\n   \r\nGROUP BY\r\n      \"public\".\"client\".\"realm_id\"\r\n   \r\nORDER BY\r\n      count desc\r\n  ) AS \"source\"",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Service Accounts Avg",
+          "type": "table"
+        }
+      ],
+      "title": "Avg Number of Service Accounts",
+      "type": "row"
+    }
+  ],
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Service Overview Custom",
+  "uid": "NxBu1InSk",
+  "version": 7,
+  "weekStart": ""
+}
