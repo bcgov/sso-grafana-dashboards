@@ -1,0 +1,448 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 34,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P8BC80798FB985F6E"
+      },
+      "description": "Clients with more than ${count} logins on ${date}",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Client ID",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 19,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "barRadius": 0.3,
+        "barWidth": 0.2,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "horizontal",
+        "showValue": "never",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "client_id",
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P8BC80798FB985F6E"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "select client_id, sum(count) FROM client_events_with_idp \nwhere to_char(date, 'YYYY-MM-DD')>='${startdate}' \nand to_char(date, 'YYYY-MM-DD')<'${enddate}' \nand event_type='${event}' \nand count > ${count}\nand client_id not in ('admin-cli', 'security-admin-console')\nGROUP BY client_id, environment\norder by client_id asc",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Clients login counts by date",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P8BC80798FB985F6E"
+      },
+      "description": "Count of events in the set time range",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 30,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P8BC80798FB985F6E"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select date, client_id, count from client_events_with_idp where event_type='${event}' and date > $__timeFrom() and date < $__timeTo() and count > $count ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Count of events in time range",
+      "transformations": [
+        {
+          "id": "prepareTimeSeries",
+          "options": {
+            "format": "multi"
+          }
+        }
+      ],
+      "type": "timeseries"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "2024-08-01",
+          "value": "2024-08-01"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P8BC80798FB985F6E"
+        },
+        "definition": "select distinct to_char(date, 'YYYY-MM-DD') from client_events",
+        "includeAll": false,
+        "label": "StartDate",
+        "name": "startdate",
+        "options": [],
+        "query": "select distinct to_char(date, 'YYYY-MM-DD') from client_events",
+        "refresh": 1,
+        "regex": "",
+        "sort": 2,
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "500",
+          "value": "500"
+        },
+        "description": "Count of events greater than",
+        "includeAll": false,
+        "label": "Count",
+        "name": "count",
+        "options": [
+          {
+            "selected": true,
+            "text": "500",
+            "value": "500"
+          },
+          {
+            "selected": false,
+            "text": "1000",
+            "value": "1000"
+          },
+          {
+            "selected": false,
+            "text": "2000",
+            "value": "2000"
+          },
+          {
+            "selected": false,
+            "text": "5000",
+            "value": "5000"
+          },
+          {
+            "selected": false,
+            "text": "10000",
+            "value": "10000"
+          },
+          {
+            "selected": false,
+            "text": "15000",
+            "value": "15000"
+          },
+          {
+            "selected": false,
+            "text": "20000",
+            "value": "20000"
+          },
+          {
+            "selected": false,
+            "text": "25000",
+            "value": "25000"
+          }
+        ],
+        "query": "500,1000,2000,5000,10000,15000,20000,25000",
+        "type": "custom"
+      },
+      {
+        "current": {
+          "text": "CLIENT_LOGIN",
+          "value": "CLIENT_LOGIN"
+        },
+        "description": "Type of the event",
+        "includeAll": false,
+        "label": "Event",
+        "name": "event",
+        "options": [
+          {
+            "selected": true,
+            "text": "CLIENT_LOGIN",
+            "value": "CLIENT_LOGIN"
+          },
+          {
+            "selected": false,
+            "text": "CLIENT_LOGIN_ERROR",
+            "value": "CLIENT_LOGIN_ERROR"
+          },
+          {
+            "selected": false,
+            "text": "CODE_TO_TOKEN",
+            "value": "CODE_TO_TOKEN"
+          },
+          {
+            "selected": false,
+            "text": "IDENTITY_PROVIDER_LOGIN_ERROR",
+            "value": "IDENTITY_PROVIDER_LOGIN_ERROR"
+          },
+          {
+            "selected": false,
+            "text": "INTROSPECT_TOKEN",
+            "value": "INTROSPECT_TOKEN"
+          },
+          {
+            "selected": false,
+            "text": "LOGIN",
+            "value": "LOGIN"
+          },
+          {
+            "selected": false,
+            "text": "LOGOUT",
+            "value": "LOGOUT"
+          },
+          {
+            "selected": false,
+            "text": "LOGOUT_ERROR",
+            "value": "LOGOUT_ERROR"
+          },
+          {
+            "selected": false,
+            "text": "REFRESH_TOKEN",
+            "value": "REFRESH_TOKEN"
+          },
+          {
+            "selected": false,
+            "text": "REFRESH_TOKEN_ERROR",
+            "value": "REFRESH_TOKEN_ERROR"
+          },
+          {
+            "selected": false,
+            "text": "USER_INFO_REQUEST",
+            "value": "USER_INFO_REQUEST"
+          },
+          {
+            "selected": false,
+            "text": "USER_INFO_REQUEST_ERROR",
+            "value": "USER_INFO_REQUEST_ERROR"
+          }
+        ],
+        "query": "CLIENT_LOGIN,CLIENT_LOGIN_ERROR,CODE_TO_TOKEN,IDENTITY_PROVIDER_LOGIN_ERROR,INTROSPECT_TOKEN,LOGIN,LOGOUT,LOGOUT_ERROR,REFRESH_TOKEN,REFRESH_TOKEN_ERROR,USER_INFO_REQUEST,USER_INFO_REQUEST_ERROR",
+        "type": "custom"
+      },
+      {
+        "current": {
+          "text": "2024-10-01",
+          "value": "2024-10-01"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "P8BC80798FB985F6E"
+        },
+        "definition": "select distinct to_char(date, 'YYYY-MM-DD') from client_events",
+        "includeAll": false,
+        "label": "EndDate",
+        "name": "enddate",
+        "options": [],
+        "query": "select distinct to_char(date, 'YYYY-MM-DD') from client_events",
+        "refresh": 1,
+        "regex": "",
+        "sort": 2,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Event counts by client with Date Range",
+  "uid": "c5a3074a-8b7d-4e99-ad88-fbf3c34ea2cc",
+  "version": 7
+}

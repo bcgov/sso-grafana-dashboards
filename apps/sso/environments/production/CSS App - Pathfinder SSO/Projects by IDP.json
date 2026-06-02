@@ -1,0 +1,282 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 66,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P24BB1063C80D1A5B"
+      },
+      "description": "Projects listed by Identity Provider. Change the dashboard variable to see different IDPs. Only clients in production are shown.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "yTky5fnIz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select project_name as \"Project\", array_to_string(dev_idps, ', ') as \"Identity Providers\", idir_user_display_name\r\nfrom requests\r\nwhere archived = false\r\nand auth_type in ('browser-login', 'both')\r\nand '${idp}' = any(dev_idps)\r\nand 'prod' = any(environments);",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Projects By IDP",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P24BB1063C80D1A5B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Production Approved"
+          }
+        ]
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "yTky5fnIz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select project_name as \"Project\", array_to_string(dev_idps, ', ') as \"Identity Providers\", array_to_string(prod_valid_redirect_uris, ', ') as \"Production URIs\", idir_user_display_name, idir_email, bceid_approved as \"Production Approved\"\r\nfrom requests\r\njoin users on users.id = requests.user_id\r\nwhere archived = false\r\nand auth_type in ('browser-login', 'both')\r\nand status != 'draft'\r\nand \r\n('bceidbasic' = any(dev_idps) or 'bceidboth' = any(dev_idps) or 'bceidbusiness' = any(dev_idps))\r\nand 'prod' = any(environments);",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "BCeID integrations prod",
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "githubpublic",
+          "value": "githubpublic"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Identity Provider",
+        "multi": false,
+        "name": "idp",
+        "options": [
+          {
+            "selected": false,
+            "text": "idir",
+            "value": "idir"
+          },
+          {
+            "selected": false,
+            "text": "azureidir",
+            "value": "azureidir"
+          },
+          {
+            "selected": true,
+            "text": "githubpublic",
+            "value": "githubpublic"
+          },
+          {
+            "selected": false,
+            "text": "githubbcgov",
+            "value": "githubbcgov"
+          },
+          {
+            "selected": false,
+            "text": "bceidbasic",
+            "value": "bceidbasic"
+          },
+          {
+            "selected": false,
+            "text": "bceidboth",
+            "value": "bceidboth"
+          },
+          {
+            "selected": false,
+            "text": "bceidbusiness",
+            "value": "bceidbusiness"
+          },
+          {
+            "selected": false,
+            "text": "digitalcredential",
+            "value": "digitalcredential"
+          }
+        ],
+        "query": "idir,azureidir,githubpublic,githubbcgov,bceidbasic,bceidboth,bceidbusiness,digitalcredential",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Projects by IDP",
+  "uid": "eesbjkwkxzq4gd",
+  "version": 1,
+  "weekStart": ""
+}
