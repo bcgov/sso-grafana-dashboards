@@ -1,0 +1,126 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 38,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "P2FB56214EEED7ED3"
+      },
+      "description": "Countof custom realms without master realm access. This query checks two ways, through the old direct assignment to \"realmname-realm-admin\" role, and assignment via the \"realmname Realm Administrator\" group. All custom realms should have access through one of these two ways.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "dark-red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 0,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "P2FB56214EEED7ED3"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "with master_admin_roles as (\r\n  select * from keycloak_role where name ilike '%-realm-admin' and realm_id = 'master'\r\n),\r\nrealms_with_users_in_master_admin_role as (\r\n  select REGEXP_REPLACE(name, '-realm-admin$', '') as realm_name from master_admin_roles where exists (\r\n  select * from user_role_mapping join user_entity on user_role_mapping.user_id = user_entity.id \r\n  where role_id = master_admin_roles.id \r\n  and username not like 'service-account-%')\r\n),\r\ncustom_realm_admin_groups as (\r\n  select * from keycloak_group where realm_id = 'master' and name ilike '%Realm Administrator'\r\n),\r\nrealms_with_users_in_admin_groups as (\r\n  select email, replace(name, ' Realm Administrator', '') as realm_name from \r\n  user_group_membership join custom_realm_admin_groups on user_group_membership.group_id = custom_realm_admin_groups.id\r\n  join user_entity on user_group_membership.user_id = user_entity.id\r\n)\r\nselect count(name) from realm where name not in (select realm_name from realms_with_users_in_admin_groups)\r\nand name not in (select realm_name from realms_with_users_in_master_admin_role)\r\nand name not in ('standard', 'master', 'idir', 'github', 'bceidbasic', 'bceidbusiness', 'bceidboth', 'azureidir', 'otp');",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Custom realms without master realm admin access",
+      "type": "stat"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Custom realm roles",
+  "uid": "ece88994-ab06-438b-a3c0-fa27dd6891cf",
+  "version": 9
+}
