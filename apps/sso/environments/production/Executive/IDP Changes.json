@@ -13,7 +13,7 @@
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
+          "name": "Annotations \u0026 Alerts",
           "query": {
             "datasource": {
               "name": "-- Grafana --"
@@ -52,7 +52,7 @@
                         "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
-                        "rawSql": "WITH production_requests AS (\r\n  SELECT\r\n    r.id AS request_id,\r\n    r.project_name\r\n  FROM requests r\r\n  WHERE 'prod' = ANY(r.environments)\r\n  and r.project_name not ilike '%tian''s testing%'\r\n  and r.project_name not ilike '%TestMarcoOm%'\r\n  and r.project_name not ilike '%tian''s testing%'\r\n),\r\n\r\nnormalized_changes AS (\r\n  SELECT\r\n    e.id AS event_id,\r\n    e.request_id,\r\n    pr.project_name,\r\n    e.created_at,\r\n    e.idir_userid,\r\n\r\n    -- Case required, as change can be an array rearrangement (A), or a full field edit/delete (D/E)\r\n    CASE\r\n      WHEN change->>'kind' = 'A'\r\n       AND change->'item'->>'kind' IN ('D', 'E')\r\n        THEN change->'item'->>'lhs'\r\n      WHEN change->>'kind' IN ('D', 'E')\r\n        THEN change->>'lhs'\r\n    END AS old_idp,\r\n\r\n    CASE\r\n      WHEN change->>'kind' = 'A'\r\n       AND change->'item'->>'kind' IN ('N', 'E')\r\n        THEN change->'item'->>'rhs'\r\n      WHEN change->>'kind' IN ('N', 'E')\r\n        THEN change->>'rhs'\r\n    END AS new_idp\r\n\r\n  FROM production_requests pr\r\n  JOIN events e\r\n    ON e.request_id = pr.request_id\r\n  CROSS JOIN LATERAL jsonb_array_elements(\r\n    COALESCE(e.details->'changes', '[]'::jsonb)\r\n  ) AS change\r\n  WHERE e.event_code = 'request-update-success'\r\n    AND change->'path'->>0 = 'devIdps'\r\n),\r\n\r\nevent_changes AS (\r\n  SELECT DISTINCT\r\n    event_id,\r\n    request_id,\r\n    project_name,\r\n    created_at,\r\n    idir_userid\r\n  FROM normalized_changes\r\n),\r\n\r\nidp_changes AS (\r\n  SELECT\r\n    ec.event_id,\r\n    ec.request_id,\r\n    ec.project_name,\r\n    ec.created_at,\r\n    ec.idir_userid,\r\n\r\n-- Need to except old idps, as array rearrangements can lead to \"old_idp\" just being moved in the array. e.g:\r\n--     old_idp      new_idp\r\n-- ------------ -----------\r\n-- azureidir    idir\r\n-- githubbcgov  azureidir\r\n-- NULL         githubbcgov\r\n-- needs to show that only idir was added \r\n    ARRAY(\r\n      SELECT nc.new_idp\r\n      FROM normalized_changes nc\r\n      WHERE nc.event_id = ec.event_id\r\n        AND nc.new_idp IS NOT NULL\r\n\r\n      EXCEPT\r\n\r\n      SELECT nc.old_idp\r\n      FROM normalized_changes nc\r\n      WHERE nc.event_id = ec.event_id\r\n        AND nc.old_idp IS NOT NULL\r\n    ) AS added_idps,\r\n\r\n    ARRAY(\r\n      SELECT nc.old_idp\r\n      FROM normalized_changes nc\r\n      WHERE nc.event_id = ec.event_id\r\n        AND nc.old_idp IS NOT NULL\r\n\r\n      EXCEPT\r\n\r\n      SELECT nc.new_idp\r\n      FROM normalized_changes nc\r\n      WHERE nc.event_id = ec.event_id\r\n        AND nc.new_idp IS NOT NULL\r\n    ) AS removed_idps\r\n\r\n  FROM event_changes ec\r\n)\r\n\r\nSELECT\r\n  created_at \"Timestamp\",\r\n  project_name as \"Project Name\",\r\n  NULLIF(array_to_string(added_idps, ', '), '') AS \"Added Identity Providers\",\r\n  NULLIF(array_to_string(removed_idps, ', '), '') AS \"Removed Identity Providers\"\r\nFROM idp_changes\r\nWHERE (cardinality(added_idps) > 0\r\n   OR cardinality(removed_idps) > 0)\r\n   AND $__timeFilter(created_at) \r\nORDER BY created_at DESC, request_id;",
+                        "rawSql": "WITH production_requests AS (\r\n  SELECT\r\n    r.id AS request_id,\r\n    r.project_name\r\n  FROM requests r\r\n  WHERE 'prod' = ANY(r.environments)\r\n  and r.project_name not ilike '%tian''s testing%'\r\n  and r.project_name not ilike '%TestMarcoOm%'\r\n  and r.project_name not ilike '%tian''s testing%'\r\n),\r\n\r\nnormalized_changes AS (\r\n  SELECT\r\n    e.id AS event_id,\r\n    e.request_id,\r\n    pr.project_name,\r\n    e.created_at,\r\n    e.idir_userid,\r\n\r\n    -- Case required, as change can be an array rearrangement (A), or a full field edit/delete (D/E)\r\n    CASE\r\n      WHEN change-\u003e\u003e'kind' = 'A'\r\n       AND change-\u003e'item'-\u003e\u003e'kind' IN ('D', 'E')\r\n        THEN change-\u003e'item'-\u003e\u003e'lhs'\r\n      WHEN change-\u003e\u003e'kind' IN ('D', 'E')\r\n        THEN change-\u003e\u003e'lhs'\r\n    END AS old_idp,\r\n\r\n    CASE\r\n      WHEN change-\u003e\u003e'kind' = 'A'\r\n       AND change-\u003e'item'-\u003e\u003e'kind' IN ('N', 'E')\r\n        THEN change-\u003e'item'-\u003e\u003e'rhs'\r\n      WHEN change-\u003e\u003e'kind' IN ('N', 'E')\r\n        THEN change-\u003e\u003e'rhs'\r\n    END AS new_idp\r\n\r\n  FROM production_requests pr\r\n  JOIN events e\r\n    ON e.request_id = pr.request_id\r\n  CROSS JOIN LATERAL jsonb_array_elements(\r\n    COALESCE(e.details-\u003e'changes', '[]'::jsonb)\r\n  ) AS change\r\n  WHERE e.event_code = 'request-update'\r\n    AND e.outcome IN ('requested', 'submitted')\r\n    AND change-\u003e'path'-\u003e\u003e0 = 'devIdps'\r\n),\r\n\r\nevent_changes AS (\r\n  SELECT DISTINCT\r\n    event_id,\r\n    request_id,\r\n    project_name,\r\n    created_at,\r\n    idir_userid\r\n  FROM normalized_changes\r\n),\r\n\r\nidp_changes AS (\r\n  SELECT\r\n    ec.event_id,\r\n    ec.request_id,\r\n    ec.project_name,\r\n    ec.created_at,\r\n    ec.idir_userid,\r\n\r\n-- Need to except old idps, as array rearrangements can lead to \"old_idp\" just being moved in the array. e.g:\r\n--     old_idp      new_idp\r\n-- ------------ -----------\r\n-- azureidir    idir\r\n-- githubbcgov  azureidir\r\n-- NULL         githubbcgov\r\n-- needs to show that only idir was added \r\n    ARRAY(\r\n      SELECT nc.new_idp\r\n      FROM normalized_changes nc\r\n      WHERE nc.event_id = ec.event_id\r\n        AND nc.new_idp IS NOT NULL\r\n\r\n      EXCEPT\r\n\r\n      SELECT nc.old_idp\r\n      FROM normalized_changes nc\r\n      WHERE nc.event_id = ec.event_id\r\n        AND nc.old_idp IS NOT NULL\r\n    ) AS added_idps,\r\n\r\n    ARRAY(\r\n      SELECT nc.old_idp\r\n      FROM normalized_changes nc\r\n      WHERE nc.event_id = ec.event_id\r\n        AND nc.old_idp IS NOT NULL\r\n\r\n      EXCEPT\r\n\r\n      SELECT nc.new_idp\r\n      FROM normalized_changes nc\r\n      WHERE nc.event_id = ec.event_id\r\n        AND nc.new_idp IS NOT NULL\r\n    ) AS removed_idps\r\n\r\n  FROM event_changes ec\r\n)\r\n\r\nSELECT\r\n  created_at \"Timestamp\",\r\n  project_name as \"Project Name\",\r\n  NULLIF(array_to_string(added_idps, ', '), '') AS \"Added Identity Providers\",\r\n  NULLIF(array_to_string(removed_idps, ', '), '') AS \"Removed Identity Providers\"\r\nFROM idp_changes\r\nWHERE (cardinality(added_idps) \u003e 0\r\n   OR cardinality(removed_idps) \u003e 0)\r\n   AND $__timeFilter(created_at) \r\nORDER BY created_at DESC, request_id;",
                         "sql": {
                           "columns": [
                             {
@@ -147,7 +147,20 @@
         ]
       }
     },
-    "links": [],
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "Source (GitHub)",
+        "tooltip": "View source file in repository",
+        "type": "link",
+        "url": "https://github.com/bcgov/sso-grafana-dashboards/blob/main/apps/sso/environments/production/Executive/IDP%20Changes.json"
+      }
+    ],
     "liveNow": false,
     "preferences": {
       "layout": {
